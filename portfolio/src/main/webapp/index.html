@@ -2,11 +2,18 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Sara's Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sara Qu</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="script.js"></script>
   </head>
   <body>
+      <button onclick = "topFunction()" id = "top-button">
+          <i class="arrow up"></i>&nbsp
+           Back to Top
+      </button>
+
       <div class="sidenav">
         <ul style = "list-style-type:circle">
             <li><a href="#aboutme">About Me</a>
@@ -17,9 +24,24 @@
       </div>
 
       <div class="bg-text">
-        <h1>Sara's Portfolio</h1>
+        <div id = "toppage"></div>
+        <h1>Sara Qu</h1>
         <img src="/images/idcard.png" style="border-radius:50%" width=20% height=20%>
-        <h3>Welcome to my portfolio! </h3>
+        <br><br>
+        <a href="https://www.facebook.com/people/Sara-Qu/100008845652183">
+          <i class="fa fa-facebook-square" style="font-size:42px;color:#3b5998"></i></a>
+        &nbsp;
+        <span class = "insta">
+            <a href = "https://www.instagram.com/sara.quu/?hl=en">
+              <i class="fa fa-instagram" style="font-size:42px;"></i>
+            </a>
+        </span>
+        <a href="https://www.linkedin.com/in/sara-qu-28552617a">
+          <i class="fa fa-linkedin-square" style="font-size:42px;color:#0e76a8"></i></a>
+        &nbsp;
+        <a href = "https://github.com/saladq">
+          <i class="fa fa-github-square" style="font-size:42px;color:rgb(40,40,40)"></i></a>
+        <br><br>
 
         <div id="aboutme">
         <h2> About Me </h2>
@@ -82,9 +104,14 @@
                 tons of whipped cream and fruits.
             </p>
             <p> Tap the button below to randomly generate one of my creations! (For the full set 
-                check out my instagram!(<a href="https://www.instagram.com/saladbakes/">
-                @saladbakes</a>))
+                check out my instagram!)
+                <span class = "insta">
+                    <a href="https://www.instagram.com/saladbakes/">
+                    <i class="fa fa-instagram" style="font-size:24px;"></i>
+                    </a>
+                </span>
             </p>
+            <br>
             <button onclick = "addRandomImage()" class = "button">Baked Goods</button>
             <center><div id = "content"><img id="image-container" src="/images/bake1.jpg" 
              border="1" width=10% height=10%>

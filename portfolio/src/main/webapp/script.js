@@ -13,14 +13,14 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random image to the page.
  */
 function addRandomImage() {
 
-  // Pick a random greeting.
-  var randNum = Math.floor(Math.random() * 7) + 1;
+  // Pick a random number.
+  let randNum = Math.floor(Math.random() * 7) + 1;
 
-  // Add it to the page.
+  // Add corresponding image to page.
   var image = "/images/bake" + randNum + ".jpg";
   document.getElementById('image-container').src = image;
 }

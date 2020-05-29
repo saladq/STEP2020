@@ -7,6 +7,7 @@
 
 #image-container {
   object-fit: cover;
+  border: 2px black;
   width: 70%;
   height: 70%;
 }
@@ -53,8 +54,9 @@ body,html {
 }
 
 .button {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0.384);
   border: 2px black;
+  border-radius: 8px;
   color: white;
   padding: 15px 32px;
   text-align: center;
@@ -62,6 +64,7 @@ body,html {
   display: inline-block;
   font-size: 16px;
   font-family: Georgia;
+  letter-spacing: 0.1em;
   margin: 4px 2px;
   cursor: pointer;
 }
@@ -73,7 +76,7 @@ body,html {
   line-height:1.6;
   border: 3px solid #f1f1f1;
   position: absolute;
-  top: 220%;
+  top: 230%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;

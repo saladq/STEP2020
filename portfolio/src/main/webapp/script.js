@@ -50,7 +50,7 @@ function topFunction() {
 }
 
 function getData() {
-  fetch('/data').then(response => response.text()).then((getName) => {
-    document.getElementById('name').innerHTML = getName;
+  fetch('/data').then(response => response.json()).then((getName) => {
+    sentence = document.getElementById('name').innerHTML = getName[0]+getName[1]+getName[2];
   });
 }

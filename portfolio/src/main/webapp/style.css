@@ -1,43 +1,88 @@
 #content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+  overflow: hidden;
+  margin-top: 5%;
+  width: 600px;
+  height: 500px;
 }
 
 #image-container {
-  margin-top: 20px;
+  object-fit: cover;
+  border: 2px black;
+  width: 70%;
+  height: 70%;
 }
 
 body,html {
     background-image: url("images/ghibli.jpg");
-    background-repeat: repeat-y;
+    background-repeat: no-repeat;
     background-attachment: fixed;
     height:100%;
+    margin: 0;
+    font-family: Georgia, Helvetica, sans-serif;
+    color: white;
+    letter-spacing: 0.1em;
+    scroll-behavior: smooth;
+}
+
+.sidenav {
+  width: 150px;
+  position: fixed;
+  z-index: 1;
+  top: 29%;
+  left: 10px;
+  background: rgb(0,0,0,0);
+  overflow-x: visible;
+  padding: 8px 0;
+}
+
+.sidenav a {
+  padding: 6px 0px 50px 0px;
+  text-decoration: none;
+  font-size: 14pt;
+  font-weight: bold;
+  color: white;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: rgb(211,211,211);
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 50px;}
+  .sidenav a {font-size: 28px;}
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.384);
+  border: 2px black;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: Georgia;
+  letter-spacing: 0.1em;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 .bg-text {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.35);
   color: white;
   font-weight: bold;
   line-height:1.6;
   border: 3px solid #f1f1f1;
   position: absolute;
-  top: 150%;
+  top: 230%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: 75%;
+  width: 70%;
   padding: 20px;
   text-align: center;
-}
-
-body, html {
-  height: 100%;
-  margin: 0;
-  font-family: Georgia, Helvetica, sans-serif;
-  color: white;
-  letter-spacing: 0.1em;
-
 }
 
 h1 {
@@ -48,6 +93,7 @@ h1 {
 h2 {
     text-align: left;
     color:rgb(211, 211, 211);
+    font-weight: bold;
 }
 
 p {

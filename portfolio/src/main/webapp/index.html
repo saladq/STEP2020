@@ -7,20 +7,50 @@
     <script src="script.js"></script>
   </head>
   <body>
+      <div class="sidenav">
+        <ul style = "list-style-type:circle">
+            <li><a href="#aboutme">About Me</a>
+            <li><a href="#experiences">Experiences</a>
+            <li><a href="#works">Works</a>
+            <li><a href="#hobbies">Hobbies</a>
+        </ul>
+      </div>
+
       <div class="bg-text">
         <h1>Sara's Portfolio</h1>
+        <img src="/images/idcard.png" style="border-radius:50%" width=20% height=20%>
         <h3>Welcome to my portfolio! </h3>
 
+        <div id="aboutme">
         <h2> About Me </h2>
         <p> Welcome to my portfolio! I'm Sara Qu, a rising junior at Harvard concentrating 
-            in Computer Science. On campus I am mainly involved in AADT (Asian American 
+            in Computer Science. I declared my concentration the fall of 2019 and since the start of 
+            college, I have taken classes in functional programming, theoretical CS, and data 
+            structure and algorithms. I am looking forward to taking more classes in the upcoming 
+            years, perhaps courses in design or artificial intelligence. </p>
+        <p> On campus I am mainly involved in AADT (Asian American 
             Dance Troup), Breakers, and The Crimson as a web and print designer. In my 
             spare time, I like to swim and bake. My home is based in New York City where 
-            I frequently go into the city to catch up with friends over a meal or by 
+            I frequently go into the city to catch up with friends over meals or by 
             meandering around.
         </p>
+        </div>
 
-        <h2> Works </h2>
+        <div id="experiences"><h2> Experiences</h2>
+        <ol>
+            <li><p>Google Step Intern (May 2022 - Present)</p>
+                <p>Description: A 12 week program that allows students to work on a software
+                    project alongside another STEP intern, with the support of full time 
+                    Googlers and mentors. </p>
+            <li><p>Designer at The Crimson (September 2019 - Present)</p>
+                <p>Description: A print and web designer for The Crimson: weekly designing 
+                    for both online publications and print, as well as designing updated website.</p>
+            <li><p>Muse Games Marketing Intern (June 2018 - August 2018)</p>
+                <p>Description: Provide quality assurance, team support, and researched marketing 
+                    tactics in order to better promote company products.
+        </div>
+
+        <div id="works"><h2> Works </h2>
         <p> Below are some links to some of the fun projects I've done in the past! </p>
         <ol>
             <li><p>Gudetama Dash: An android game.</p>
@@ -36,9 +66,30 @@
             </a>: Graphic designs for Fifteen Minutes, the monthly magazine publication by The
             Crimson.
             <center><img src= "images/dumplings.jpg" alt = "Dumplings" width=40% height=40%>
-            <img src="images/harvard_tiktok.jpg" alt = "Harvard TikTok" width=38.78% height=38.78%>
+            <img src="images/harvard_tiktok.jpg" alt = "Harvard TikTok" width=38.77% height=38.77%>
             </center>
         </ol>
+        </div>
+
+        <div id="hobbies"><h2> Hobbies </h2>
+            <p>I love swimming, playing volleyball, and playing badminton. I also love doing 
+                a lot of small artworks on the side whenever I have free time. These tend to 
+                be pretty unconventional. I like making pottery, crocheting and baking. And 
+                among these interests, I probably like baking the most, specifically bread and 
+                cakes. I gained an interest in baking the winter of 2018-2019. There really
+                is nothing like the satisfaction of kneading dough to a smooth, milky 
+                complexion and of eating a whole-days-effort three layer cake topped with 
+                tons of whipped cream and fruits.
+            </p>
+            <p> Tap the button below to randomly generate one of my creations! (For the full set 
+                check out my instagram!(<a href="https://www.instagram.com/saladbakes/">
+                @saladbakes</a>))
+            </p>
+            <button onclick = "addRandomImage()" class = "button">Baked Goods</button>
+            <center><div id = "content"><img id="image-container" src="/images/bake1.jpg" 
+             border="1" width=10% height=10%>
+            </div></center>
+        </div>
       </div>
   </body>
 </html>

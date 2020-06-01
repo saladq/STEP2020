@@ -19,7 +19,7 @@ function addRandomImage() {
 
   // Pick a random number.
   let numOfImages = 7;
-  let randNum = Math.floor(Math.random() * num) + 1;
+  let randNum = Math.floor(Math.random() * numOfImages) + 1;
 
   // Add corresponding image to page.
   var image = "/images/bake" + randNum + ".jpg";
@@ -31,7 +31,7 @@ function addRandomImage() {
  */
 
 
-// When the user scrolls down 50px from the top of the document, show the button
+// When the user scrolls down 300px from the top of the document, show the button
 window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
@@ -47,4 +47,10 @@ function scrollFunction() {
 function topFunction() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+}
+
+function getData() {
+  fetch('/data').then(response => response.text()).then((getName) => {
+    document.getElementById('name').innerHTML = getName;
+  });
 }

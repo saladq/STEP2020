@@ -18,7 +18,8 @@
 function addRandomImage() {
 
   // Pick a random number.
-  let randNum = Math.floor(Math.random() * 7) + 1;
+  let numOfImages = 7;
+  let randNum = Math.floor(Math.random() * num) + 1;
 
   // Add corresponding image to page.
   var image = "/images/bake" + randNum + ".jpg";

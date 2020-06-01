@@ -18,9 +18,33 @@
 function addRandomImage() {
 
   // Pick a random number.
-  let randNum = Math.floor(Math.random() * 7) + 1;
+  let numOfImages = 7;
+  let randNum = Math.floor(Math.random() * num) + 1;
 
   // Add corresponding image to page.
   var image = "/images/bake" + randNum + ".jpg";
   document.getElementById('image-container').src = image;
+}
+
+/**
+ * Adds a back to top button 
+ */
+
+
+// When the user scrolls down 50px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  var topbutton = document.getElementById("top-button");
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    topbutton.style.display = "block";
+  } else {
+    topbutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }

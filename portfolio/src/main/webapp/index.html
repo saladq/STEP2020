@@ -2,11 +2,157 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Sara's Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sara Qu</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="script.js"></script>
   </head>
   <body>
+      <div class="topnav" width=100%>
+          <a style="border:none" href = "#intro"> sara qu. </a>
+          <div class="topnav-right">
+            <a href="#aboutme">About Me</a>
+            <a href="#experiences">Experiences</a>
+            <a href="#works">Works</a>
+            <a href="#hobbies">Hobbies</a>
+          </div>
+      </div>
+
+      <button onclick = "topFunction()" id = "top-button">
+          <i class="arrow-up"></i>&nbsp
+           Back to Top
+      </button>
+
+      <div id = "intro">
+          <div class = "content">
+              <div class = "column" style="padding-top:30px;">
+                  <p> Hi there, I'm Sara. </p>
+                  <h2> Welcome to my portfolio! I'm a rising junior at Harvard 
+                      concentrating in Computer Science.
+                  </h2>
+                  <p> For more about myself, my past experiences, and my favorite 
+                      pastimes, scroll down!
+                  <br><br><br>
+                  <div class = "center">
+                      <div class="arrow bounce">
+                        <a class="fa fa-angle-down fa-4x" href="#aboutme"></a>
+                      </div>
+                  </div>
+              </div>
+              <div class = "column" style="padding-top:10px">
+                  <img src = "images/photo.jpeg" class = "center-image" width=50%>
+              </div>
+          </div>
+          <span id = "aboutme"></span>
+      </div><div class = "container" style = "background-color:#dbbbb5">
+          <div class = "content-single">
+                <h1> About Me </h1>
+                <p> Since high school, I have been taking courses in CS but it wasn't until 
+                    college where I really started to get into it. As of fall 2019, I 
+                    declared my concentration in Computer Science and look forward to taking 
+                    more classes perhaps in articial intelligence and design. As of now, 
+                    I have taken basic courses in functional programming, data structures and 
+                    algorithms, and theoretical CS. I am currently a Google STEP intern for the 
+                    summer of 2020 where I have been working remotely but still getting to 
+                    know my awesome teammates.
+                </p>
+                <p> On campus I am mainly involved in AADT (Asian American 
+                    Dance Troup), Breakers, and The Crimson as a web and print designer. In my 
+                    spare time, I like to swim, crochet, and bake. My home is based in New York 
+                    City where I frequently go into the city to catch up with friends over meals 
+                    or by meandering around.
+                </p>
+          </div>
+          <span id = "experiences"></span>
+      </div><div class = "container" style="background-color:#e3cbc6">
+          <div class = "content-single">
+              <h1>Experiences </h1>
+              <ol>
+                <li><p>Google Step Intern (May 2020 - Present)</p>
+                    <p>Description: A 12 week program that allows students to work on a software
+                        project alongside another STEP intern, with the support of full time 
+                        Googlers and mentors. </p>
+                <li><p>Designer at The Crimson (September 2019 - Present)</p>
+                    <p>Description: A print and web designer for The Crimson: weekly designing 
+                        for both online publications and print, as well as designing updated website.</p>
+                <li><p>Muse Games Marketing Intern (June 2018 - August 2018)</p>
+                    <p>Description: Provide quality assurance, team support, and researched marketing 
+                        tactics in order to better promote company products.
+          </div>
+          <span id = "works"></span>
+      </div><div class = "container" style="background-color:#ddbfb9">
+          <div class = "content-single">
+              <h1> Works </h1>
+              <p> Below are some links to some of the fun projects I've done in the past! </p>
+              <ol>
+                <li><p>Gudetama Dash: An android game.</p>
+                <center><iframe width="560" height="315" src="https://www.youtube.com/embed/_b2SqDB7qwo" 
+                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; 
+                picture-in-picture" allowfullscreen></iframe></center>
+
+                <li><p><a href="https://docs.google.com/presentation/d/1o-OREpSFgouI0sB4WHmhVjH8_PszNclc8t_TDfoKN0Q/edit?usp=sharing">
+                SmartCloset</a>: A design prototype for a shopping app that allows you to 
+                more easily find correct sizes and fit.</p>
+
+                <li><p><a href="https://www.thecrimson.com/writer/1215063/Sara__Qu/"> The Crimson
+                </a>: Graphic designs for Fifteen Minutes, the monthly magazine publication by The
+                Crimson.
+                <center><img src= "images/dumplings.jpg" alt = "Dumplings" width=40% height=40%>
+                <img src="images/harvard_tiktok.jpg" alt = "Harvard TikTok" width=38.77% height=38.77%>
+                </center>
+              </ol>
+          </div>
+          <span id = "hobbies"></span>
+      </div><div class = "container" style = "background-color: #ead7d3">
+          <div class = "content-single">
+              <h1> Hobbies </h1>
+              <p>I love swimming, playing volleyball, and playing badminton. I also love doing 
+                a lot of small artworks on the side whenever I have free time. These tend to 
+                be pretty unconventional. I like making pottery, crocheting and baking. And 
+                among these interests, I probably like baking the most, specifically bread and 
+                cakes. I gained an interest in baking the winter of 2018-2019. There really
+                is nothing like the satisfaction of kneading dough to a smooth, milky 
+                complexion and of eating a whole-days-effort three layer cake topped with 
+                tons of whipped cream and fruits.
+            </p>
+            <p> Tap the button below to randomly generate one of my creations! (For the full set 
+                check out my instagram!)
+                <span class = "insta">
+                    <a href="https://www.instagram.com/saladbakes/">
+                    <i class="fa fa-instagram" style="font-size:24px;"></i>
+                    </a>
+                </span>
+            </p>
+            <br>
+            <div class = "center">
+                <button onclick = "addRandomImage()" class = "button">Still Hungry?</button>
+            </div>
+            <br><br>
+            <div class = "center">
+                <img id="image-container" src="/images/bake1.jpg" 
+                border="1" width=10% height=10%>
+                </div>
+            </div>
+          </div><div class="footer">
+                <a href="https://www.facebook.com/people/Sara-Qu/100008845652183">
+                <i class="fa fa-facebook-square" style="font-size:32px;color:#3b5998"></i></a>
+                &nbsp;
+                <span class = "insta">
+                    <a href = "https://www.instagram.com/sara.quu/?hl=en">
+                    <i class="fa fa-instagram" style="font-size:32px;"></i>
+                    </a>
+                </span>
+                <a href="https://www.linkedin.com/in/sara-qu-28552617a">
+                <i class="fa fa-linkedin-square" style="font-size:32px;color:#0e76a8"></i></a>
+                &nbsp;
+                <a href = "https://github.com/saladq">
+                <i class="fa fa-github-square" style="font-size:32px;color:rgb(40,40,40)"></i></a>
+                <p class = "center" style="font-size:12px">Made by Sara Qu</p> 
+          </div>
+      </div>
+
+<!-- 
       <div class="sidenav">
         <ul style = "list-style-type:circle">
             <li><a href="#aboutme">About Me</a>
@@ -17,9 +163,24 @@
       </div>
 
       <div class="bg-text">
-        <h1>Sara's Portfolio</h1>
+        <div id = "toppage"></div>
+        <h1>Sara Qu</h1>
         <img src="/images/idcard.png" style="border-radius:50%" width=20% height=20%>
-        <h3>Welcome to my portfolio! </h3>
+        <br><br>
+        <a href="https://www.facebook.com/people/Sara-Qu/100008845652183">
+          <i class="fa fa-facebook-square" style="font-size:42px;color:#3b5998"></i></a>
+        &nbsp;
+        <span class = "insta">
+            <a href = "https://www.instagram.com/sara.quu/?hl=en">
+              <i class="fa fa-instagram" style="font-size:42px;"></i>
+            </a>
+        </span>
+        <a href="https://www.linkedin.com/in/sara-qu-28552617a">
+          <i class="fa fa-linkedin-square" style="font-size:42px;color:#0e76a8"></i></a>
+        &nbsp;
+        <a href = "https://github.com/saladq">
+          <i class="fa fa-github-square" style="font-size:42px;color:rgb(40,40,40)"></i></a>
+        <br><br>
 
         <div id="aboutme">
         <h2> About Me </h2>
@@ -38,7 +199,7 @@
 
         <div id="experiences"><h2> Experiences</h2>
         <ol>
-            <li><p>Google Step Intern (May 2022 - Present)</p>
+            <li><p>Google Step Intern (May 2020 - Present)</p>
                 <p>Description: A 12 week program that allows students to work on a software
                     project alongside another STEP intern, with the support of full time 
                     Googlers and mentors. </p>
@@ -82,14 +243,19 @@
                 tons of whipped cream and fruits.
             </p>
             <p> Tap the button below to randomly generate one of my creations! (For the full set 
-                check out my instagram!(<a href="https://www.instagram.com/saladbakes/">
-                @saladbakes</a>))
+                check out my instagram!)
+                <span class = "insta">
+                    <a href="https://www.instagram.com/saladbakes/">
+                    <i class="fa fa-instagram" style="font-size:24px;"></i>
+                    </a>
+                </span>
             </p>
+            <br>
             <button onclick = "addRandomImage()" class = "button">Baked Goods</button>
             <center><div id = "content"><img id="image-container" src="/images/bake1.jpg" 
              border="1" width=10% height=10%>
             </div></center>
         </div>
-      </div>
+      </div> -->
   </body>
 </html>

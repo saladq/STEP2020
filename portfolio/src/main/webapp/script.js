@@ -35,7 +35,7 @@ window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
   var topbutton = document.getElementById("top-button");
-  if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
     topbutton.style.display = "block";
   } else {
     topbutton.style.display = "none";

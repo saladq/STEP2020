@@ -49,8 +49,19 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
-function getData() {
-  fetch('/data').then(response => response.json()).then((getName) => {
-    sentence = document.getElementById('name').innerHTML = getName[0]+getName[1]+getName[2];
+function getComments() {
+  fetch('/updateComments').then(response => response.json()).then((comments) => {
+
+    const lst = document.getElementById('commentList');
+    for (var c in comments){
+        lst.appendChild(createListElement(comments[c]));
+    }
   });
 }
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+

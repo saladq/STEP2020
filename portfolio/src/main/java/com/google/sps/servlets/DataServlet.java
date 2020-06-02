@@ -23,25 +23,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
+@WebServlet("/updateComments")
 public class DataServlet extends HttpServlet {
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-    ArrayList<String> items = new ArrayList<>();
-    String item1 = "Hi ";
-    String item2 = "there, ";
-    String item3 = "I'm Sara!";
-    items.add(item1);
-    items.add(item2);
-    items.add(item3);
+  ArrayList<String> list = new ArrayList<>();
 
-    String json = new Gson().toJson(items);
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
+    String json = new Gson().toJson(list);
+    response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    String comment = request.getParameter("comment");
+
+    list.add(comment);
+
+    String json = new Gson().toJson(list);
     response.setContentType("application/json;");
     response.getWriter().println(json);
-/*
-    response.setContentType("text/html;");
-    response.getWriter().println("<p>Hi there, I'm Sara!</p>");*/
+
+    response.sendRedirect("index.html");
   }
 }

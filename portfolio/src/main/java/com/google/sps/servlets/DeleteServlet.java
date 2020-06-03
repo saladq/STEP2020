@@ -18,6 +18,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -30,16 +32,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/updateComments")
-public class DataServlet extends HttpServlet {
+@WebServlet("/deleteComments")
+public class DeleteServlet extends HttpServlet {
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   PreparedQuery results;
   int max = 3;
 
+  // updating comments after deletion
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Task");
 
     results = datastore.prepare(query);
 
@@ -56,40 +59,17 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(comments));
   }
 
+  // Deleting all comments
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    String comment = request.getParameter("comment");
-    long timestamp = System.currentTimeMillis();
-
-    if(comment != null){
-        Entity commentEntity = new Entity("Task");
-        commentEntity.setProperty("comment", comment);
-        commentEntity.setProperty("timestamp", timestamp);
-
-        datastore.put(commentEntity);
+    Query query = new Query("Task");
+    results = datastore.prepare(query);
+    
+    for (Entity entity: results.asIterable()){
+        datastore.delete(entity.getKey());
     }
-
-    if (request.getParameter("maxComments") != null || getMaxComments(request)!= -1) 
-        max = getMaxComments(request);
 
     response.sendRedirect("index.html");
-  }
-
-  private int getMaxComments(HttpServletRequest request) {
-    // Get the input from the form.
-    String maxComments = request.getParameter("maxComments");
-    System.out.println("max: "+ maxComments);
-    // Convert the input to an int.
-    int max_num;
-
-    try {
-      max_num = Integer.parseInt(maxComments);
-    } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + maxComments);
-      return -1;
-    }
-
-    return max_num;
   }
 }

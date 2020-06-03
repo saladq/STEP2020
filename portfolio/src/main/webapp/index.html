@@ -145,7 +145,20 @@
 
                     <input type="submit" />
                 </form>
+                <form action="/updateComments" method="POST">
+                    Max number of comments:
+                    <input type="number" name="maxComments" max="10" min="3">
+                    <br/><br/>
+
+                    <input type="submit" />
+                </form>
+                
                 <ul id = "commentList"></ul>
+                <form action="/deleteComments" method="POST">
+                    Delete all comments?
+                    <br/><br/>
+                    <input type="submit" />
+                </form>
               </div>
           </div>
           <div class="footer">

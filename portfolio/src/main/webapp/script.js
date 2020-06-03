@@ -51,17 +51,27 @@ function topFunction() {
 
 function getComments() {
   fetch('/updateComments').then(response => response.json()).then((comments) => {
-
     const lst = document.getElementById('commentList');
-    for (var c in comments){
-        lst.appendChild(createListElement(comments[c]));
-    }
+    
+    comments.forEach((c) => {
+        lst.appendChild(createListElement(c));
+    })
   });
 }
 
-function createListElement(text) {
+function deleteComments(){
+    fetch('/deleteComments').then(response => response.json()).then((comments) =>{
+        const lst = document.getElementById('commentList');
+    
+        comments.forEach((c) => {
+            lst.appendChild(createListElement(c));
+        })
+    });
+}
+
+function createListElement(task) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  liElement.innerText = task;
   return liElement;
 }
 

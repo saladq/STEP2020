@@ -52,26 +52,88 @@ function topFunction() {
 function getComments() {
   fetch('/updateComments').then(response => response.json()).then((comments) => {
     const lst = document.getElementById('commentList');
+    lst.innerHTML="";
     
     comments.forEach((c) => {
-        lst.appendChild(createListElement(c));
+        lst.appendChild(createNameDateElement(c.name, c.date));
+        lst.appendChild(createListElement(c.comment));
     })
+    document.getElementsByName("commentForm")[0].reset();
+    document.getElementsByName("commentForm")[1].reset();
   });
 }
 
-function deleteComments(){
-    fetch('/deleteComments').then(response => response.json()).then((comments) =>{
-        const lst = document.getElementById('commentList');
-    
-        comments.forEach((c) => {
-            lst.appendChild(createListElement(c));
-        })
+function postComment(e) {
+    e.preventDefault();
+    var comment = document.getElementById("comment").value;
+    var name = document.getElementById("name").value;
+    const requestPost = new Request('/updateComments?comment=' + comment+'&name='+name, {method: 'POST'});
+    fetch(requestPost).then((response) => {
+        if (!response.ok) {throw Error(response.statusText);}
+        return this.getComments();
+    })/*
+    fetch(requestPost).then(response => response.text()).then(text =>{
+    if (text!= null) getComments();
+    });*/
+  
+}
+
+function setMaxComments(e){
+    e.preventDefault();
+    var maxComments = document.getElementById("maxComments").value;
+    const requestPost = new Request('/updateComments?maxComments=' + maxComments, {method: 'POST'});
+    fetch(requestPost).then(response => response.text()).then(text =>{
+        if (text!= null){
+            getComments();
+        }
     });
 }
 
-function createListElement(task) {
+function deleteComments(e){
+    e.preventDefault();
+    const requestPost = new Request('/deleteComments', {method: 'POST'});
+    fetch(requestPost).then((response) => {
+        if (!response.ok) {throw Error(response.statusText);}
+        return this.getComments();
+    })
+}
+
+function createIcon(){
+    const faElement = document.createElement('i');
+    faElement.className = "fa fa-user";
+    faElement.style.fontSize="20px";
+    faElement.style.paddingRight = "10px";
+    return faElement;
+}
+
+function createNameDateElement(name, date){
+    const liElement = document.createElement('li');
+    liElement.appendChild(createIcon());
+    liElement.appendChild(createNameElement(name));
+    liElement.appendChild(createDateElement(date));
+    liElement.style.paddingBottom = "15px"
+    return liElement;
+}
+
+function createNameElement(name){
+    const nameSpan = document.createElement('span');
+    nameSpan.className = "name";
+    nameSpan.innerText = name;
+    nameSpan.style.paddingRight = "10px;"
+    return nameSpan;
+}
+
+function createDateElement(date){
+    const dateSpan = document.createElement('span');
+    dateSpan.className = "date";
+    dateSpan.innerText = date;
+    return dateSpan;
+}
+
+function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = task;
+  liElement.className= "comnt";
+  liElement.innerText = comment;
   return liElement;
 }
 

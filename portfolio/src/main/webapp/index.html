@@ -135,30 +135,37 @@
                 </div>
             </div>
           </div><div class = "container">
-              <div class = "content-single">
-                <h2> Comments </h2>
-                <form action="/updateComments" method="POST">
-
-                    <p>Post any thoughts or questions!</p>
-                    <input type="comment" name="comment">
-                    <br/><br/>
-
-                    <input type="submit" />
-                </form>
-                <form action="/updateComments" method="POST">
-                    Max number of comments:
-                    <input type="number" name="maxComments" max="10" min="3">
-                    <br/><br/>
-
-                    <input type="submit" />
-                </form>
-                
-                <ul id = "commentList"></ul>
-                <form action="/deleteComments" method="POST">
-                    Delete all comments?
-                    <br/><br/>
-                    <input type="submit" />
-                </form>
+              <div class = "content">
+                <div class = "column">
+                    <h2> Comments </h2>
+                    <form onsubmit="postComment(event)" method="POST" name="commentForm">
+                        <p>Post any thoughts or questions!</p>
+                        <input type = "text" name= "name" id = "name" width = "10%" placeholder = "Name">
+                        <br><br>
+                        <textarea rows = "6" cols="50" id = "comment" name="comment" placeholder = "Enter comment here."></textarea>
+                        <br><br>
+                        <input value = "Submit Comment" type="submit" />
+                    </form>
+                </div>
+                <div class = "column">
+                    <h2> Customizations </h2>
+                    <form onsubmit="setMaxComments(event)" method="POST" name="commentForm">
+                        Max number of comments:
+                        <input type="number" id = "maxComments" name="maxComments" max="10" min="3">
+                        <br/><br/>
+                        <input type="submit" />
+                    </form>
+                    <br>
+                    <form onsubmit="deleteComments(event);return false" method="POST" name="commentForm">
+                        Delete all comments?
+                        <br/><br/>
+                        <input type="submit" />
+                    </form>
+                </div>
+              </div>
+          </div><div class = "container">
+              <div class = "content-single" style="padding-top:0px">
+                    <ul id = "commentList"></ul>
               </div>
           </div>
           <div class="footer">

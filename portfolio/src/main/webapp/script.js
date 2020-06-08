@@ -71,11 +71,16 @@ function postComment(e) {
     fetch(requestPost).then((response) => {
         if (!response.ok) {throw Error(response.statusText);}
         return this.getComments();
-    })/*
+    })
+}
+
+function sortComments(sort){
+    const requestPost = new Request('/updateComments?sc=' + sort.value, {method: 'POST'});
     fetch(requestPost).then(response => response.text()).then(text =>{
-    if (text!= null) getComments();
-    });*/
-  
+        if (text!= null){
+            getComments();
+        }
+    });
 }
 
 function setMaxComments(e){

@@ -40,13 +40,20 @@ public class DataServlet extends HttpServlet {
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   PreparedQuery results;
   int max = 3;
+  String sort = "Most Recent";
 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    
+    // deciding sorting method based on variable
+    if (sort.equals("Most Recent"))
+        query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    else if (sort.equals("Oldest"))
+        query = new Query("Task").addSort("timestamp", SortDirection.ASCENDING);
+
 
     results = datastore.prepare(query);
-    System.out.println("current max:"+ max);
 
     List<Comment> comments = new ArrayList<>();
 
@@ -88,8 +95,13 @@ public class DataServlet extends HttpServlet {
         datastore.put(commentEntity);
     }
 
+    // update max number of comments if field is not empty
     if (request.getParameter("maxComments") != null && getMaxComments(request)!= -1) 
         max = getMaxComments(request);
+
+    // update sorting method upon change
+    if (request.getParameter("sc") != null) 
+        sort = request.getParameter("sc");
 
     response.setContentType("text/html");
     response.getWriter().println("done");

@@ -149,6 +149,14 @@
                 </div>
                 <div class = "column">
                     <h2> Customizations </h2>
+                    
+                    <label>SORT BY:</label>
+                    <select name = "sc" onChange="sortComments(this);">
+                        <option value = "Most Recent">Most Recent</option>
+                        <option value = "Oldest">Oldest</option>
+                    </select>
+                    <br><br>
+
                     <form onsubmit="setMaxComments(event)" method="POST" name="commentForm">
                         Max number of comments:
                         <input type="number" id = "maxComments" name="maxComments" max="10" min="3">

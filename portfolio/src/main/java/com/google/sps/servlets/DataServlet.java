@@ -14,47 +14,114 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import com.google.gson.Gson;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.Comment;
+
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/updateComments")
 public class DataServlet extends HttpServlet {
 
-  //ArrayList<String> list = new ArrayList<>();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-/*
+  PreparedQuery results;
+  int max = 3;
+  String sort = "Most Recent";
+
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
-    String json = new Gson().toJson(list);
-    response.getWriter().println(json);
-  }*/
+    
+    Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    
+    // deciding sorting method based on variable
+    if (sort.equals("Most Recent"))
+        query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    else if (sort.equals("Oldest"))
+        query = new Query("Task").addSort("timestamp", SortDirection.ASCENDING);
+
+
+    results = datastore.prepare(query);
+
+    List<Comment> comments = new ArrayList<>();
+
+    for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(max))) {
+        String name = (String) entity.getProperty("name");
+        if (name == null || name == "") name = "Anonymous";
+
+        String cmt = (String) entity.getProperty("comment");
+        String date = (String) entity.getProperty("date");
+        Comment c = new Comment(name, cmt, date);
+        comments.add(c);
+    }
+
+    Gson gson = new Gson();
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(comments));
+  }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     String comment = request.getParameter("comment");
+    String name = request.getParameter("name");
+
+    LocalDateTime time = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    String date = time.format(formatter);
+
     long timestamp = System.currentTimeMillis();
 
-    //list.add(comment);
-    Entity commentEntity = new Entity("Task");
-    commentEntity.setProperty("comment", comment);
-    commentEntity.setProperty("timestamp", timestamp);
+    if(comment != null){
+        Entity commentEntity = new Entity("Task");
+        commentEntity.setProperty("name", name);
+        commentEntity.setProperty("comment", comment);
+        commentEntity.setProperty("date", date);
+        commentEntity.setProperty("timestamp", timestamp);
 
-    datastore.put(commentEntity);
-/*
-    String json = new Gson().toJson(list);
-    response.setContentType("application/json;");
-    response.getWriter().println(json);*/
+        datastore.put(commentEntity);
+    }
 
-    response.sendRedirect("index.html");
+    // update max number of comments if field is not empty
+    if (request.getParameter("maxComments") != null && getMaxComments(request)!= -1) 
+        max = getMaxComments(request);
+
+    // update sorting method upon change
+    if (request.getParameter("sc") != null) 
+        sort = request.getParameter("sc");
+
+    response.setContentType("text/html");
+    response.getWriter().println("done");
+    
+  }
+
+  private int getMaxComments(HttpServletRequest request) {
+    // Get the input from the form.
+    String maxComments = request.getParameter("maxComments");
+    System.out.println("max: "+ maxComments);
+    // Convert the input to an int.
+    int max_num;
+
+    try {
+      max_num = Integer.parseInt(maxComments);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + maxComments);
+      return -1;
+    }
+
+    return max_num;
   }
 }

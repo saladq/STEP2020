@@ -17,6 +17,8 @@ body,html {
 
 .container {
     width: 100%;
+    max-width:100%;
+    word-wrap:break-word;
     margin: 0;
     border-bottom: 0.2px solid rgba(0,0,0,0.1);
 }
@@ -50,6 +52,30 @@ body,html {
     margin-left:auto;
     margin-right:auto;
     display:block;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.name{
+    font-size: 20px;
+    font-weight:bold;
+    color: rgb(60,60,60);
+    padding-right: 15px;
+}
+
+.date{
+    font-size: 14px;
+    color:rgb(150,150,150);
+    padding-bottom: 15px;
+}
+
+.comnt{
+    font-size:18px;
+    color:black;
+    padding-bottom:30px;
 }
 
 #image-container {
@@ -100,11 +126,6 @@ body,html {
   float: right;
 }
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 50px;}
-  .sidenav a {font-size: 28px;}
-}
-
 .button {
   background-color: rgba(255, 255, 255, 0.5);
   border: none;
@@ -119,6 +140,22 @@ body,html {
   letter-spacing: 0.1em;
   margin: 4px 2px;
   cursor: pointer;
+}
+
+input[type=submit]{
+    background-color: #e3cbc6;
+    border: 1px solid rgba(0,0,0,0);
+    border-radius: 8px;
+    color: black;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 16px;
+    font-family: Georgia;
+    letter-spacing: 0.1em;
+}
+
+input[type=submit]:hover{
+    border: 1px solid rgb(56, 56, 56);
 }
 
 .button:hover{

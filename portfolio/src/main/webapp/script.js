@@ -49,18 +49,142 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
+function getEmail(){
+    fetch('/userInfo').then(response => response.json()).then((currentUser) => {
+        console.log(currentUser[1]);
+        return currentUser[1];
+    })
+}
+
 function getComments() {
   fetch('/updateComments').then(response => response.json()).then((comments) => {
-    const lst = document.getElementById('commentList');
-    lst.innerHTML="";
-    
-    comments.forEach((c) => {
-        lst.appendChild(createNameDateElement(c.name, c.date));
-        lst.appendChild(createListElement(c.comment));
+    fetch('/userInfo').then(response => response.json()).then((currentUser) => {
+        console.log(currentUser[1]);
+            const lst = document.getElementById('commentList');
+            var currEmail = currentUser[1];
+            var num = 0;
+            lst.innerHTML="";
+            
+            comments.forEach((c) => {
+                if (c.email == currEmail){
+                    console.log("name: "+c.name);
+                    lst.appendChild(createDeleteCheckBox(c.name, c.date, c.comment, num, c.id));
+                    num++;
+                } else{
+                    lst.appendChild(createCommentElement(c.name, c.date, c.comment, c.id));
+                }
+          //      lst.appendChild(createListElement(c.comment));
+            })
+            document.getElementsByName("commentForm")[0].reset();
+            document.getElementsByName("commentForm")[1].reset();
     })
-    document.getElementsByName("commentForm")[0].reset();
-    document.getElementsByName("commentForm")[1].reset();
+ 
   });
+}
+
+function createDeleteCheckBox(name, date, comment, num, commentId){
+    var box = document.createElement('input');
+    box.type = "checkbox";
+    box.id = "checkbox"+num;
+    box.name= "userCheckbox";
+    var line = createNameDateElement(name, date);
+    line.appendChild(box);
+    var liElement = document.createElement('li');
+    liElement.id = commentId;
+    liElement.appendChild(line);
+    liElement.appendChild(createListElement(comment));
+    return liElement;
+}
+
+// returns an array of the ids of selected comments
+function getChecked(e) {
+  e.preventDefault();
+  var checkboxes = document.querySelectorAll("input[type=checkbox]");
+  var checked = [];
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    var checkbox = checkboxes[i];
+    if (checkbox.checked){
+        console.log("parent id: " + checkbox.parentNode.parentNode.id);
+        checked.push(checkbox.parentNode.parentNode.id);
+    }
+  }
+
+  var hiddenSelectedComments = document.getElementById("selectedComments");
+  hiddenSelectedComments.value = checked.join(",");
+  console.log(hiddenSelectedComments.value);
+  deleteComments(hiddenSelectedComments);
+}
+
+function getName(info){
+    fetch('/userInfo').then(response => response.json()).then((currentUser) => {
+        commentsect = document.getElementById("commentSection");
+        namechange = document.getElementById("nameChange");
+        if (info.logged){
+            if(!currentUser[0] || currentUser[0] == false) {
+            namechange.style.display='block';
+            commentsect.style.display='none';
+            } else{
+                commentsect.style.display='block';
+                namechange.style.display='none';
+                createLogoutButton(info.url);
+            }
+            document.getElementById("displayName").innerText = currentUser[0];
+        } else {
+            namechange.style.display='none';
+            commentsect.style.display='none';
+        }
+    })
+}
+
+function loginInfo(){
+    fetch("/login").then(response => response.json()).then((info) => {
+        this.getName(info);
+        loginform = document.getElementById("loginForm");
+        console.log(info);
+        console.log(name);
+        if (info.logged == true){
+            console.log("hiding login form");
+            loginform.style.display='none';
+        } else {
+            console.log("displaying login form");
+            loginform.style.display='block';
+        }
+    })
+}
+
+//takes user to login page
+function login(){
+    fetch("/login").then(response => response.json()).then((info) => {
+        console.log(info.url);
+        window.location.replace(info.url);
+    })
+
+}
+
+function createLogoutButton(url){
+    var log = document.getElementById("log");
+    var button = document.createElement('button');
+    var a = document.createElement('a');
+    var link = document.createTextNode("Logout");
+    button.appendChild(link);
+    button.className = "button";
+    a.href = url;
+    a.appendChild(button);
+    log.appendChild(a);
+
+}
+
+function createName(e){
+    e.preventDefault();
+    var name = document.getElementById("name").value;
+    console.log("created name: "+name);
+    const requestPost = new Request("/userInfo?name=" + name, {method:'POST'});
+    fetch(requestPost).then((response) => {
+        if (!response.ok) {throw Error(response.statusText);}
+        return this.loginInfo();
+    })
+
 }
 
 function postComment(e) {
@@ -94,13 +218,21 @@ function setMaxComments(e){
     });
 }
 
-function deleteComments(e){
-    e.preventDefault();
-    const requestPost = new Request('/deleteComments', {method: 'POST'});
+function deleteComments(){
+    var selectedComments = document.getElementById("selectedComments").value;
+    const requestPost = new Request('/deleteComments?selectedComments=' + selectedComments, {method: 'POST'});
     fetch(requestPost).then((response) => {
         if (!response.ok) {throw Error(response.statusText);}
         return this.getComments();
     })
+}
+
+function createCommentElement(name, date, comment, commentId){
+    const liElement = document.createElement('li');
+    liElement.id = commentId;
+    liElement.appendChild(createNameDateElement(name, date));
+    liElement.appendChild(createListElement(comment));
+    return liElement;
 }
 
 function createIcon(){

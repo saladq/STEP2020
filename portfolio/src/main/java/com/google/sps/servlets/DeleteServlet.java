@@ -18,6 +18,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import java.io.IOException;
@@ -41,9 +42,15 @@ public class DeleteServlet extends HttpServlet {
 
     Query query = new Query("Task");
     results = datastore.prepare(query);
+    datastore = DatastoreServiceFactory.getDatastoreService();
+
+    String selected = request.getParameter("selectedComments");
+    String[] selectedComments = selected.split(",");
+    System.out.println(selectedComments[0]);
     
-    for (Entity entity: results.asIterable()){
-        datastore.delete(entity.getKey());
+    for(String id: selectedComments){
+        Key taskEntityKey = KeyFactory.createKey("Task", Long.parseLong(id));
+        datastore.delete(taskEntityKey);
     }
 
     return;

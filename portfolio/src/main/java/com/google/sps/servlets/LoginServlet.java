@@ -21,28 +21,39 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import com.google.sps.data.Info;
+import com.google.gson.Gson;
+
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
-
+ //   PrintWriter out = response.getWriter();
+    String url = "";
+    boolean logged = false;
+    String email = "";
     UserService userService = UserServiceFactory.getUserService();
+
     if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/login";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      logged = true;
+      email = userService.getCurrentUser().getEmail();
+      String urlToRedirectToAfterUserLogsOut = "/index.html#commentSection";
+      url = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      
     } else {
-      String urlToRedirectToAfterUserLogsIn = "/login";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<p>Hello stranger.</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+      logged = false;
+      email = "";
+      String urlToRedirectToAfterUserLogsIn = "/index.html#log";
+      url = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
     }
+
+    Info info = new Info(logged, url, email);
+    Gson gson = new Gson();
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(info));
   }
 }

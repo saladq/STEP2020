@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
 import com.google.gson.Gson;
 import java.util.*;
@@ -45,6 +47,7 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+
     
     // deciding sorting method based on variable
     if (sort.equals("Most Recent"))
@@ -58,12 +61,14 @@ public class DataServlet extends HttpServlet {
     List<Comment> comments = new ArrayList<>();
 
     for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(max))) {
-        String name = (String) entity.getProperty("name");
-        if (name == null || name == "") name = "Anonymous";
-
+        long id = entity.getKey().getId();
+        String userid = (String) entity.getProperty("userid");
+        UserInfoServlet s = new UserInfoServlet();
+        String name = s.getUserName(userid);
         String cmt = (String) entity.getProperty("comment");
         String date = (String) entity.getProperty("date");
-        Comment c = new Comment(name, cmt, date);
+        String email = (String) entity.getProperty("email");
+        Comment c = new Comment(id, name, cmt, date, email);
         comments.add(c);
     }
 
@@ -76,8 +81,10 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+    UserService userService = UserServiceFactory.getUserService();
     String comment = request.getParameter("comment");
-    String name = request.getParameter("name");
+    String id = userService.getCurrentUser().getUserId();
+    String email = userService.getCurrentUser().getEmail();
 
     LocalDateTime time = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -87,10 +94,12 @@ public class DataServlet extends HttpServlet {
 
     if(comment != null){
         Entity commentEntity = new Entity("Task");
-        commentEntity.setProperty("name", name);
+        commentEntity.setProperty("userid", id);
         commentEntity.setProperty("comment", comment);
+        commentEntity.setProperty("email", email);
         commentEntity.setProperty("date", date);
         commentEntity.setProperty("timestamp", timestamp);
+
 
         datastore.put(commentEntity);
     }

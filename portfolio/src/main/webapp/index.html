@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="script.js"></script>
   </head>
-  <body onload = "getComments()">
+  <body onload = "getComments(); loginInfo()">
       <div class="topnav" width=100%>
           <a style="border:none" href = "#intro"> sara qu. </a>
           <div class="topnav-right">
@@ -134,20 +134,36 @@
                 border="1" width=10% height=10%>
                 </div>
             </div>
-          </div><div class = "container">
+          </div><div class = "container" id = "log">
+              <div class = "content-single" id = "loginForm" >
+                  <h2> Login to post comments! </h2>
+                  <br>
+                  <form onsubmit="login()" method="GET" name="loginForm">
+                        <input value = "Login Here" type="submit" />
+                  </form>
+              </div>
+          </div><div class = "container" id = "nameChange">
+              <div class = "content-single">
+                  <form onsubmit="createName(event)" method = "POST" name = "nameForm">
+                    <p> Please create a name to display: </p>
+                    <input type = "text" name= "name" id = "name" maxlength = "15" width = "10%" 
+                    placeholder = "Enter name here.">
+                    <input value = "Submit" type="submit" />
+                  </form>
+              </div>
+         
+          </div><div class = "container" id = "commentSection">
               <div class = "content">
-                <div class = "column">
-                    <h2> Comments </h2>
+                <div class = "column" id = "comment1">
+                    <h2>Hi, <span id="displayName"></span> </h2>
                     <form onsubmit="postComment(event)" method="POST" name="commentForm">
                         <p>Post any thoughts or questions!</p>
-                        <input type = "text" name= "name" id = "name" width = "10%" placeholder = "Name">
-                        <br><br>
                         <textarea rows = "6" cols="50" id = "comment" name="comment" placeholder = "Enter comment here."></textarea>
                         <br><br>
                         <input value = "Submit Comment" type="submit" />
                     </form>
                 </div>
-                <div class = "column">
+                <div class = "column" id= "customizations">
                     <h2> Customizations </h2>
                     
                     <label>SORT BY:</label>
@@ -164,15 +180,17 @@
                         <input type="submit" />
                     </form>
                     <br>
-                    <form onsubmit="deleteComments(event);return false" method="POST" name="commentForm">
-                        Delete all comments?
+                    <form onsubmit="getChecked(event);return false" method="POST" name="deleteForm">
+                        Delete all selected comments?
                         <br/><br/>
+                        <input type="hidden" name="selectedComments" id="selectedComments"/>
                         <input type="submit" />
                     </form>
                 </div>
               </div>
           </div><div class = "container">
               <div class = "content-single" style="padding-top:0px">
+                    <h2>Comments</h2>
                     <ul id = "commentList"></ul>
               </div>
           </div>

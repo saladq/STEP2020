@@ -49,6 +49,12 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
+function createMap(){
+    const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: {lat: 40.73, lng: -73.935}, zoom: 10});
+}
+
 function getEmail(){
     fetch('/userInfo').then(response => response.json()).then((currentUser) => {
         console.log(currentUser[1]);

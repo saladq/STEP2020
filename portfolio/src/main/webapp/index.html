@@ -9,7 +9,7 @@
     <script src="script.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBk1qaSn0N3QoM5otz9aCUwRRa7fmS1gBQ"></script>
   </head>
-  <body onload = "createMap(); getComments(); loginInfo()">
+  <body onload = "createMap(); loginInfo()">
       <div class="topnav" width=100%>
           <a style="border:none" href = "#intro"> sara qu. </a>
           <div class="topnav-right">
@@ -141,7 +141,13 @@
                 </div>
             </div>
           </div><div class = "container" id = "log">
-              <div class = "content-single" id = "loginForm" >
+              <button class = "button" id = "changeName" onclick = "showNameForm();" style = "display:none">
+                  Change Name
+              </button>
+              <button class = "button" id = "logout" onclick = "login();" style = "display:none">
+                  Logout
+              </button>
+              <div class = "content-single" id = "loginForm" style= "display:none">
                   <h2> Login to post comments! </h2>
                   <br>
                   <form onsubmit="login()" method="GET" name="loginForm">

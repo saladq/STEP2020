@@ -138,10 +138,12 @@ function createMap(){
     var marker = new google.maps.Marker({position: nyc, map: map});
 
     var contentString = '<h3>New York City</h3>'+
-      "<p style = 'font-size: 12px'>I attended elementary and middle school in my "+
+      "<p style = 'font-size: 12px'>I grew up in NYC and love the "+
+      'commotion of the city. I attended elementary and middle school in my '+
       'small neighborhood in Queens. I later attended high school '+
-      'in the city, first a Hunter College High School, and then '+
-      'at Trinity School.</p>';
+      'in the city, first at Hunter College High School, and then '+
+      'at Trinity School. One of my favorite things to do is to go '+
+      'out and explore various restaurants and bakeries!</p>';
 
     var infowindow = new google.maps.InfoWindow({
         content: contentString
@@ -181,7 +183,6 @@ function getComments() {
                 } else{
                     lst.appendChild(createCommentElement(c.name, c.date, c.comment, c.id));
                 }
-          //      lst.appendChild(createListElement(c.comment));
             })
             document.getElementsByName("commentForm")[0].reset();
             document.getElementsByName("commentForm")[1].reset();
@@ -235,7 +236,8 @@ function getName(info){
             } else{
                 commentsect.style.display='block';
                 namechange.style.display='none';
-                createLogoutButton(info.url);
+                document.getElementById("logout").style.display='block';
+                document.getElementById("changeName").style.display='block';
             }
             document.getElementById("displayName").innerText = currentUser[0];
         } else {
@@ -258,6 +260,7 @@ function loginInfo(){
             console.log("displaying login form");
             loginform.style.display='block';
         }
+        return this.getComments();
     })
 }
 
@@ -270,17 +273,14 @@ function login(){
 
 }
 
-function createLogoutButton(url){
-    var log = document.getElementById("log");
-    var button = document.createElement('button');
-    var a = document.createElement('a');
-    var link = document.createTextNode("Logout");
-    button.appendChild(link);
-    button.className = "button";
-    a.href = url;
-    a.appendChild(button);
-    log.appendChild(a);
+function showNameForm(){
+    var changeNameButton = document.getElementById("changeName");
+    var changeNameForm = document.getElementById("nameChange");
+    var commentSect = document.getElementById("commentSection");
 
+    changeNameButton.style.display = 'none';
+    changeNameForm.style.display = 'block';
+    commentSect.style.display = 'none';
 }
 
 function createName(e){

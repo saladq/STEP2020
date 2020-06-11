@@ -7,6 +7,10 @@ body,html {
     scroll-behavior: smooth;
 }
 
+#map {
+    height: 90%;
+}
+
 #intro {
     background-color: #e3cbc6;
     width: 100%;
@@ -70,6 +74,7 @@ ul {
     font-size: 14px;
     color:rgb(150,150,150);
     padding-bottom: 15px;
+    padding-right: 15px;
 }
 
 .comnt{

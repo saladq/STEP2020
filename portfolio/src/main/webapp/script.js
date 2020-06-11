@@ -49,6 +49,116 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
+function createMap(){
+    var nyc = {lat: 40.70, lng: -73.985}
+    const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: nyc, zoom: 10,
+    styles: [
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#746855'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{color: '#2f3948'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ]}
+    );
+    var marker = new google.maps.Marker({position: nyc, map: map});
+
+    var contentString = '<h3>New York City</h3>'+
+      "<p style = 'font-size: 12px'>I grew up in NYC and love the "+
+      'commotion of the city. I attended elementary and middle school in my '+
+      'small neighborhood in Queens. I later attended high school '+
+      'in the city, first at Hunter College High School, and then '+
+      'at Trinity School. One of my favorite things to do is to go '+
+      'out and explore various restaurants and bakeries!</p>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    marker.addListener('mouseover', function() {
+        infowindow.open(map, marker);
+    });
+    marker.addListener('mouseout', function() {
+        timeoutID = setTimeout(function() {
+            infowindow.close();
+        }, 200);
+    });
+}
+
 function getEmail(){
     fetch('/userInfo').then(response => response.json()).then((currentUser) => {
         console.log(currentUser[1]);
@@ -73,7 +183,6 @@ function getComments() {
                 } else{
                     lst.appendChild(createCommentElement(c.name, c.date, c.comment, c.id));
                 }
-          //      lst.appendChild(createListElement(c.comment));
             })
             document.getElementsByName("commentForm")[0].reset();
             document.getElementsByName("commentForm")[1].reset();
@@ -127,7 +236,8 @@ function getName(info){
             } else{
                 commentsect.style.display='block';
                 namechange.style.display='none';
-                createLogoutButton(info.url);
+                document.getElementById("logout").style.display='block';
+                document.getElementById("changeName").style.display='block';
             }
             document.getElementById("displayName").innerText = currentUser[0];
         } else {
@@ -150,6 +260,7 @@ function loginInfo(){
             console.log("displaying login form");
             loginform.style.display='block';
         }
+        return this.getComments();
     })
 }
 
@@ -162,17 +273,14 @@ function login(){
 
 }
 
-function createLogoutButton(url){
-    var log = document.getElementById("log");
-    var button = document.createElement('button');
-    var a = document.createElement('a');
-    var link = document.createTextNode("Logout");
-    button.appendChild(link);
-    button.className = "button";
-    a.href = url;
-    a.appendChild(button);
-    log.appendChild(a);
+function showNameForm(){
+    var changeNameButton = document.getElementById("changeName");
+    var changeNameForm = document.getElementById("nameChange");
+    var commentSect = document.getElementById("commentSection");
 
+    changeNameButton.style.display = 'none';
+    changeNameForm.style.display = 'block';
+    commentSect.style.display = 'none';
 }
 
 function createName(e){

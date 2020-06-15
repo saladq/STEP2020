@@ -169,29 +169,41 @@ function getEmail(){
 function getComments() {
   fetch('/updateComments').then(response => response.json()).then((comments) => {
     fetch('/userInfo').then(response => response.json()).then((currentUser) => {
-        console.log(currentUser[1]);
             const lst = document.getElementById('commentList');
             var currEmail = currentUser[1];
             var num = 0;
+            var likesCounter = 0;
+            var likeElement;
+            var dislikeElement;
             lst.innerHTML="";
             
             comments.forEach((c) => {
                 if (c.email == currEmail){
                     console.log("name: "+c.name);
-                    lst.appendChild(createDeleteCheckBox(c.name, c.date, c.comment, num, c.id));
+                    lst.appendChild(createDeleteCheckBox(c.name, c.date, c.comment, num, c.id, likesCounter));
                     num++;
                 } else{
-                    lst.appendChild(createCommentElement(c.name, c.date, c.comment, c.id));
+                    lst.appendChild(createCommentElement(c.name, c.date, c.comment, c.id, likesCounter));
                 }
+                var requestPost = new Request('/likes?commentId=' + c.id, {method: 'GET'});
+                fetch(requestPost).then(response => response.json()).then((likeStats) => {
+                    console.log("likestats: "+likeStats);
+                    likeElement = document.getElementById("like"+c.id);
+                    console.log("likeel id:" +likeElement.id);
+                    dislikeElement = document.getElementById("dislike"+c.id);
+                    likeElement.innerText = likeStats[0];
+                    dislikeElement.innerText = likeStats[1];
+                })
+            //    getLikes(c.id);
+                likesCounter++;
             })
             document.getElementsByName("commentForm")[0].reset();
             document.getElementsByName("commentForm")[1].reset();
     })
- 
   });
 }
 
-function createDeleteCheckBox(name, date, comment, num, commentId){
+function createDeleteCheckBox(name, date, comment, num, commentId, likesCounter){
     var box = document.createElement('input');
     box.type = "checkbox";
     box.id = "checkbox"+num;
@@ -202,6 +214,7 @@ function createDeleteCheckBox(name, date, comment, num, commentId){
     liElement.id = commentId;
     liElement.appendChild(line);
     liElement.appendChild(createListElement(comment));
+    liElement.appendChild(createLikesIcons(commentId));
     return liElement;
 }
 
@@ -289,8 +302,11 @@ function createName(e){
     console.log("created name: "+name);
     const requestPost = new Request("/userInfo?name=" + name, {method:'POST'});
     fetch(requestPost).then((response) => {
-        if (!response.ok) {throw Error(response.statusText);}
-        return this.loginInfo();
+        if (!response.ok) {
+            alert("Name already exists. Please pick another.");
+        } else{
+            return this.loginInfo();
+        }
     })
 
 }
@@ -304,6 +320,15 @@ function postComment(e) {
         if (!response.ok) {throw Error(response.statusText);}
         return this.getComments();
     })
+}
+
+function filterComments(filter){
+    const requestPost = new Request('/updateComments?filter=' + filter.value, {method: 'POST'});
+    fetch(requestPost).then(response => response.text()).then(text =>{
+        if (text!= null){
+            getComments();
+        }
+    });
 }
 
 function sortComments(sort){
@@ -335,11 +360,67 @@ function deleteComments(){
     })
 }
 
-function createCommentElement(name, date, comment, commentId){
+function postLikes(likeElement, likeType){
+    var commentId = likeElement.parentNode.parentNode.id;
+    
+    const requestPost = new Request('/likes?commentId=' + commentId+'&likeType='+likeType, {method: 'POST'});
+    fetch(requestPost).then((response) => {
+        if (!response.ok) {throw Error(response.statusText);}
+        return this.getLikes(commentId);
+        console.log("comment id of like el: "+commentId);
+    }) 
+}
+
+function getLikes(commentId){
+    const requestPost = new Request('/likes?commentId=' + commentId, {method: 'GET'});
+    fetch(requestPost).then(response => response.json()).then((likeStats) => {
+        console.log("likestats: "+likeStats);
+        var likeElement = document.getElementById("like"+commentId);
+        var dislikeElement = document.getElementById("dislike"+commentId);
+        likeElement.innerText = likeStats[0];
+        dislikeElement.innerText = likeStats[1];
+    })
+}
+
+function createLikesIcons(commentId){
+    const liElement = document.createElement('li');
+    const likeElement = document.createElement('i');
+    var dislikeElement = createDislikesIcon(commentId);
+
+    likeElement.className = "fa fa-thumbs-o-up";
+    likeElement.style.fontSize="20px";
+    likeElement.style.paddingRight="10px";
+    likeElement.style.color = "green";
+    likeElement.id = "like"+commentId;
+    likeElement.innerText = "0";
+    likeElement.onclick = function() {postLikes(likeElement, "like")};
+
+    liElement.style.paddingBottom="30px";
+    liElement.appendChild(likeElement);
+    liElement.appendChild(dislikeElement);
+
+    return liElement;
+}
+
+function createDislikesIcon(commentId){
+    const dislikeElement = document.createElement('i');
+
+    dislikeElement.className = "fa fa-thumbs-o-down";
+    dislikeElement.style.fontSize="20px";
+    dislikeElement.style.color="red";
+    dislikeElement.innerText = "0";
+    dislikeElement.id = "dislike"+commentId;
+    dislikeElement.onclick = function() {postLikes(dislikeElement, "dislike")};
+
+    return dislikeElement; 
+}
+
+function createCommentElement(name, date, comment, commentId, likesCounter){
     const liElement = document.createElement('li');
     liElement.id = commentId;
     liElement.appendChild(createNameDateElement(name, date));
     liElement.appendChild(createListElement(comment));
+    liElement.appendChild(createLikesIcons(commentId));
     return liElement;
 }
 

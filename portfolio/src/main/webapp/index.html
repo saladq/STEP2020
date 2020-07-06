@@ -183,6 +183,10 @@
                         <option value = "Most Recent">Most Recent</option>
                         <option value = "Oldest">Oldest</option>
                     </select>
+                    <select name = "filter" onChange="filterComments(this);">
+                        <option value = "All Comments">All Comments</option>
+                        <option value = "Your Comments">Your Comments</option>
+                    </select>
                     <br><br>
 
                     <form onsubmit="setMaxComments(event)" method="POST" name="commentForm">
@@ -193,7 +197,7 @@
                     </form>
                     <br>
                     <form onsubmit="getChecked(event);return false" method="POST" name="deleteForm">
-                        Delete all selected comments?
+                        Delete selected comments?
                         <br/><br/>
                         <input type="hidden" name="selectedComments" id="selectedComments"/>
                         <input type="submit" />
